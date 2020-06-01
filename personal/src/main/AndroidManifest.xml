@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ctl.arouter.personal" >
+
+    <application>
+        <activity android:name="com.ctl.arouter.personal.PersonalActivity" />
+    </application>
+</manifest>
