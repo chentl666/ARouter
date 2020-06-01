@@ -1,5 +1,6 @@
 package com.ctl.arouter.personal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class PersonalActivity extends AppCompatActivity {
     String username;
     @Parameter
     Bundle bundle;
+    private TextView usernameView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class PersonalActivity extends AppCompatActivity {
         // 懒加载方式，跳到哪加载哪个类
         ParameterManager.getInstance().loadParameter(this);
 
-        TextView usernameView = findViewById(R.id.txt_content);
+        usernameView = findViewById(R.id.txt_content);
         if (username != null) {
             usernameView.setText(username);
         }
@@ -39,12 +41,21 @@ public class PersonalActivity extends AppCompatActivity {
             String name = bundle.getString("name");
             usernameView.setText(name);
         }
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_personal, new StudyFragment()).commit();
     }
+
     public void jumpApp(View view) {
         RouterManager.getInstance()
                 .build("/app/MainActivity")
-                .withResultString("call", "I'am comeback!")
-                .navigation(this,200);
+                .withResultString("call", "我是PersonalActivity返回的数据")
+                .navigation(this, 200);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 555 && resultCode == 556) {
+            String call = data.getStringExtra("call");
+            usernameView.setText(call);
+        }
     }
 }

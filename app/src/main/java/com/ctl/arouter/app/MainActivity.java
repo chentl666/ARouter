@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void personalClick(View view) {
         Bundle bundle = new Bundle();
-        bundle.putString("name", "chentl");
+        bundle.putString("name", "这是PersonalActivity页面");
         bundle.putInt("age", 18);
         bundle.putBoolean("isSuccess", true);
 
@@ -67,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
                 .withBundle(bundle)
 //                .withString("username", "baby")
                 .navigation(this, 100);
+    }
+
+    public void resultClick(View view) {
+        RouterManager.getInstance()
+                .build("/personal/PersonalActivity")
+                .withResultString("call", "这是返回的结果")
+                .navigation(this, 556);
     }
 
     @Override

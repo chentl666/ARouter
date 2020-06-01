@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.ctl.arouter.api.core.Call;
 
@@ -64,12 +65,12 @@ public final class BundleManager {
         return this;
     }
 
-    public Object navigation(Context context) {
-        return RouterManager.getInstance().navigation(context, this, -1);
+    public Object navigation(Object object) {
+        return RouterManager.getInstance().navigation(object, this, -1);
     }
 
     // 这里的code，可能是requestCode，也可能是resultCode。取决于isResult
-    public Object navigation(Context context, int code) {
-        return RouterManager.getInstance().navigation(context, this, code);
+    public Object navigation(Object object, int code) {
+        return RouterManager.getInstance().navigation(object, this, code);
     }
 }

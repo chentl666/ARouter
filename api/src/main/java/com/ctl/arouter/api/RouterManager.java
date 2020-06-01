@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.LruCache;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.ctl.arouter.annotation.model.RouterBean;
 import com.ctl.arouter.api.core.ARouterLoadGroup;
@@ -87,17 +88,30 @@ public final class RouterManager {
     /**
      * 开始跳转
      *
-     * @param context       上下文
+     * @param object        上下文
      * @param bundleManager Bundle拼接参数管理类
      * @param code          这里的code，可能是requestCode，也可能是resultCode。取决于isResult
      * @return 普通跳转可以忽略，用于跨模块CALL接口
      */
-    Object navigation(@NonNull Context context, BundleManager bundleManager, int code) {
+    Object navigation(@NonNull Object object, BundleManager bundleManager, int code) {
         // 精华：阿里的路由path随意写，导致无法找到随意拼接APT生成的源文件，如：ARouter$$Group$$abc
         // 找不到，就加载私有目录下apk中的所有dex并遍历，获得所有包名为xxx的类。并开启了线程池工作
         // 这里的优化是：代码规范写法，准确定位ARouter$$Group$$app
-        String groupClassName = context.getPackageName() + ".apt" + GROUP_FILE_PREFIX_NAME + group;
-        Log.e("RouterManager:100L >>> ", "groupClassName -> " + groupClassName);
+        String groupClassName;
+        Context context;
+        if (object instanceof Context) {
+            context = (Context) object;
+            groupClassName = context.getPackageName() + ".apt" + GROUP_FILE_PREFIX_NAME + group;
+        } else if (object instanceof Fragment) {
+            context = ((Fragment) object).getActivity();
+            if (context == null) {
+                return null;
+            }
+            groupClassName = context.getPackageName() + ".apt" + GROUP_FILE_PREFIX_NAME + group;
+        } else {
+            throw new RuntimeException("路由加载失败");
+        }
+        Log.e("RouterManager: >>> ", "groupClassName -> " + groupClassName);
 
         try {
             ARouterLoadGroup groupLoad = groupCache.get(group);
@@ -142,10 +156,18 @@ public final class RouterManager {
                                 return null;
                             }
 
-                            if (code > 0) { // 跳转时是否回调
-                                ((Activity) context).startActivityForResult(intent, code, bundleManager.getBundle());
+                            if (object instanceof Context) {
+                                if (code > 0) { // 跳转时是否回调
+                                    ((Activity) context).startActivityForResult(intent, code, bundleManager.getBundle());
+                                } else {
+                                    context.startActivity(intent, bundleManager.getBundle());
+                                }
                             } else {
-                                context.startActivity(intent, bundleManager.getBundle());
+                                if (code > 0) { // 跳转时是否回调
+                                    ((Fragment) object).startActivityForResult(intent, code, bundleManager.getBundle());
+                                } else {
+                                    ((Fragment) object).startActivity(intent, bundleManager.getBundle());
+                                }
                             }
                             break;
 

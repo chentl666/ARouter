@@ -166,7 +166,7 @@ public class ARouterProcessor extends AbstractProcessor {
                 bean.setType(RouterBean.Type.CALL);
             } else {
                 // 不匹配抛出异常，这里谨慎使用！考虑维护问题
-                throw new RuntimeException("@ARouter注解目前仅限用于Activity、Fragment、Call类之上");
+                throw new RuntimeException("@ARouter注解目前仅限用于Activity、Call类之上");
             }
 
             // 赋值临时map存储，用来存放路由组Group对应的详细Path类对象

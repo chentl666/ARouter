@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:text="aaa"
+        android:text="这是MainActivity页面"
         android:textSize="20sp" />
 
     <Button
@@ -35,4 +35,12 @@
         android:layout_marginBottom="50dp"
         android:text="aaa"
         android:textSize="20sp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:onClick="resultClick"
+        android:textAllCaps="false"
+        android:text="结束activity并返回数据给\nPersonalActivity或StudyFragment" />
+
 </LinearLayout>
