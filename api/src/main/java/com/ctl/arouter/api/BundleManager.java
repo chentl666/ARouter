@@ -1,5 +1,6 @@
 package com.ctl.arouter.api;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -65,12 +66,21 @@ public final class BundleManager {
         return this;
     }
 
-    public Object navigation(Object object) {
-        return RouterManager.getInstance().navigation(object, this, -1);
+    public Object navigation(Activity activity) {
+        return RouterManager.getInstance().navigation(activity, this, -1);
     }
 
     // 这里的code，可能是requestCode，也可能是resultCode。取决于isResult
-    public Object navigation(Object object, int code) {
-        return RouterManager.getInstance().navigation(object, this, code);
+    public Object navigation(Activity activity, int code) {
+        return RouterManager.getInstance().navigation(activity, this, code);
+    }
+
+    public Object navigation(Fragment fragment) {
+        return RouterManager.getInstance().navigation(fragment, this, -1);
+    }
+
+    // 这里的code，可能是requestCode，也可能是resultCode。取决于isResult
+    public Object navigation(Fragment fragment, int code) {
+        return RouterManager.getInstance().navigation(fragment, this, code);
     }
 }

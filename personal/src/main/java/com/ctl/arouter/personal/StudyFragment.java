@@ -6,13 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.ctl.arouter.annotation.Parameter;
+import com.ctl.arouter.api.ParameterManager;
 import com.ctl.arouter.api.RouterManager;
+import com.ctl.arouter.common.app.AppDrawable;
 
 /**
  * created by : chentl
@@ -24,6 +28,9 @@ public class StudyFragment extends Fragment {
     private Button btnJump2;
     private TextView txtResult;
 
+    @Parameter(name = "/app/getDrawable")
+    AppDrawable appDrawable;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,6 +38,13 @@ public class StudyFragment extends Fragment {
         btnJump = view.findViewById(R.id.btn_jump);
         btnJump2 = view.findViewById(R.id.btn_jump2);
         txtResult = view.findViewById(R.id.txt_result);
+        ImageView image = view.findViewById(R.id.image);
+
+        //获取app模块资源
+        ParameterManager.getInstance().loadParameter(this);
+        int drawable = appDrawable.getDrawable();
+        image.setImageResource(drawable);
+
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

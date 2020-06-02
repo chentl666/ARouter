@@ -87,6 +87,7 @@ public class ParameterProcessor extends AbstractProcessor {
         if (EmptyUtils.isEmpty(tempParameterMap)) return;
         // 通过Element工具类，获取Parameter类型
         TypeElement activityType = elementUtils.getTypeElement(Constants.ACTIVITY);
+        TypeElement fragmentType = elementUtils.getTypeElement(Constants.FRAGMENT);
         TypeElement parameterType = elementUtils.getTypeElement(Constants.PARAMETER_LOAD);
 
         // 参数体配置(Object target)
@@ -95,8 +96,9 @@ public class ParameterProcessor extends AbstractProcessor {
             // Map集合中的key是类名，如：MainActivity
             TypeElement typeElement = entry.getKey();
             // 如果类名的类型和Activity类型不匹配
-            if (!typeUtils.isSubtype(typeElement.asType(), activityType.asType())) {
-                throw new RuntimeException("@Parameter注解目前仅限用于Activity类之上");
+            if (!typeUtils.isSubtype(typeElement.asType(), activityType.asType())
+                    && !typeUtils.isSubtype(typeElement.asType(), fragmentType.asType())) {
+                throw new RuntimeException("@Parameter注解目前仅限用于Activity、fragment类之上");
             }
 
             // 获取类名

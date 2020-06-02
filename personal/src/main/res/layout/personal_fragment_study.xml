@@ -26,4 +26,9 @@
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:text="跳转App页面,返回结果给fragment"/>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

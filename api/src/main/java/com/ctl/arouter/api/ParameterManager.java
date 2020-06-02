@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.LruCache;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.ctl.arouter.api.core.ParameterLoad;
 
@@ -56,6 +57,25 @@ public final class ParameterManager {
 
             // 通过传入参数给生成的源文件中所有属性赋值
             iParameter.loadParameter(activity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void loadParameter(@NonNull Fragment fragment) {
+        String className = fragment.getClass().getName();
+        // 查找缓存集合中是否有对应Fragment的value
+        ParameterLoad iParameter = cache.get(className);
+        try {
+            // 找不到，加载类后放入缓存集合
+            if (iParameter == null) {
+                // 注意：这里的className是全类名：com.xxx.xxx.Fragment
+                Class<?> clazz = Class.forName(className + FILE_SUFFIX_NAME);
+                iParameter = (ParameterLoad) clazz.newInstance();
+                cache.put(className, iParameter);
+            }
+
+            // 通过传入参数给生成的源文件中所有属性赋值
+            iParameter.loadParameter(fragment);
         } catch (Exception e) {
             e.printStackTrace();
         }
