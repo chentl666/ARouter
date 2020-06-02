@@ -16,6 +16,6 @@ dependencies {
 	...
 	implementation 'com.github.chentl666.ARouter:api:1.0.0'
 	implementation 'com.github.chentl666.ARouter:annotation:1.0.0'
-	implementation 'com.github.chentl666.ARouter:compiler:1.0.0'
+	annotationProcessor 'com.github.chentl666.ARouter:compiler:1.0.0'
 }
 ```
